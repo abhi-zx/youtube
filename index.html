@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+          #videos{
+            display:grid;
+            grid-template-columns: repeat(4,20%);
+            grid-gap:5%;
+        }
+        *{
+            margin:0;
+            padding:0;
+        }
+        .navbar{
+            display:flex;
+            height:50px;
+            align-items:center;
+            justify-content: space-between;
+
+        }
+.logo{
+    width:100px;
+    height: 22px;
+    margin: 60px;
+    margin-right: 90px;
+}
+.logo img{
+    width:100%;
+    height:100%
+}
+.input1{
+    width:550px;
+    /* background-color:red; */
+    display:flex;
+    font-family: 'Roboto','Noto',sans-serif;
+}
+.input1 input{
+    width:100%;
+    height:35px;
+}
+.search_logo{
+    width:50px;
+    height: 38px;
+    border: 0.07px solid black;
+    cursor: pointer;
+    border-left: none;
+}
+.search_logo img{
+    width:100%;
+    height:100%;
+    border-left: none;
+}
+.audio{
+    width: 56px;
+    height: 44px;
+    border: 0.07px solid black;
+    cursor: pointer;
+    border: none;
+    margin-top: 18px;
+    margin-right: 176px;
+}
+.audio img{
+    width:40%;;
+    height:50%;
+}
+.noti{
+width:200px;
+background-color: red;
+height:20px;
+}
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Logo_of_YouTube_%282015-2017%29.svg/2560px-Logo_of_YouTube_%282015-2017%29.svg.png" alt="">
+        </div>
+        <div class="input1">
+            
+            <input id='query'type="text" placeholder="Search">
+            <div class="search_logo">
+                <img onclick='searchMovies()' src="https://i.pinimg.com/736x/4a/fc/56/4afc56db34df7232f15304ee005eaaa1.jpg" alt="">
+            </div>
+
+        </div>
+        <div class="audio"> 
+            <img src="https://cdn2.iconfinder.com/data/icons/social-messaging-productivity-1/128/speaker-512.png" alt="">
+        </div>
+        <div class="noti">
+
+        </div>
+    </div>
+    <div id="videos">
+        <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/BcAYvnsbmMQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+    </div>
+    <script>
+        var videos = document.getElementById('videos')
+async function searchMovies(){
+    var inp =document.getElementById('query').value;
+    let res = await fetch(`https://youtube.googleapis.com/youtube/v3/search?q=${inp}&type=video&key=AIzaSyB4f4u32EEKNxKJoVcukT7uDIY3pL0Xq2g&maxResults=20`)
+    let data = await res.json();
+
+    // console.log('data',data);
+    appendVideos(data.items);
+}
+function appendVideos(video_data) {
+    videos.innerHTML=null;
+    video_data.forEach(({id:{videoId}})=> {
+
+        // console.log('Data',videoId);
+        var div = document.createElement('div');
+
+        div.innerHTML=`<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+
+        videos.append(div)
+
+    })
+}
+    </script>
+</body>
+</html>
