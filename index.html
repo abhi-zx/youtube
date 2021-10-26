@@ -120,6 +120,15 @@ function appendVideos(video_data) {
 
     })
 }
+async function show(name){
+    console.log('anny')
+    // var inp =document.getElementById('query').value;
+    let res = await fetch(`https://youtube.googleapis.com/youtube/v3/search?q=${name}&type=video&key=AIzaSyB4f4u32EEKNxKJoVcukT7uDIY3pL0Xq2g&maxResults=20`)
+    let data = await res.json();
+    // console.log('data',data);
+    appendVideos(data.items);
+}
+show('most popular videos in India')
     </script>
 </body>
 </html>
